@@ -49,7 +49,22 @@ Como `.agents` es un vínculo al submódulo, para subir cambios desde un proyect
 cd _shared_agents
 git add .
 git commit -m "update: mejorar regla de seguridad"
-git push
+git push origin main
+```
+
+### ¿Cómo sincronizar cambios en OTROS proyectos?
+Si subiste cambios desde el proyecto A y quieres verlos en el proyecto B, `git submodule update` (que corre en `npm install`) no bajará los cambios de la nube automáticamente (restaurará el commit viejo). Debes actualizar la referencia del submódulo en el proyecto B:
+
+```bash
+# 1. Fuerza la descarga del último commit de la rama remota
+git submodule update --remote --merge
+
+# 2. Guarda la nueva referencia en el proyecto B
+git add _shared_agents
+git commit -m "chore: sync latest agents"
+
+# 3. Refresca los enlaces
+npm run setup:agents
 ```
 
 ---
